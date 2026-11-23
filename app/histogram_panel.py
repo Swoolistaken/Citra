@@ -39,9 +39,9 @@ class HistogramPanel:
         ]:
             ax.clear()
             ax.set_facecolor("#252526")
-            ax.plot(hist_data['r'], color="#ff5555", linewidth=1.2, label="Red")
-            ax.plot(hist_data['g'], color="#50fa7b", linewidth=1.2, label="Green")
-            ax.plot(hist_data['b'], color="#61afef", linewidth=1.2, label="Blue")
+            ax.plot(hist_data['r'], color="#ff5555", linewidth=1.2)
+            ax.plot(hist_data['g'], color="#50fa7b", linewidth=1.2)
+            ax.plot(hist_data['b'], color="#61afef", linewidth=1.2)
             ax.fill_between(range(256), hist_data['r'], color="#ff5555", alpha=0.12)
             ax.fill_between(range(256), hist_data['g'], color="#50fa7b", alpha=0.12)
             ax.fill_between(range(256), hist_data['b'], color="#61afef", alpha=0.12)
@@ -54,6 +54,4 @@ class HistogramPanel:
             ax.set_yscale("symlog", linthresh=1)
             ax.set_ylim(0, ymax * 1.05)
 
-        self.ax_after.legend(loc="upper right", fontsize=7, facecolor="#1e1e1e",
-                             edgecolor="#444444", labelcolor="white")
         self.graph_canvas.draw()
