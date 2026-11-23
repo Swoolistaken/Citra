@@ -8,20 +8,23 @@ from PIL import Image, ImageTk
 class ImageViewer:
     """Satu canvas citra. Menyimpan skala tampil untuk konversi koordinat."""
 
-    def __init__(self, parent):
+    def __init__(self, parent, ui_scale=1.0):
         self.canvas = tk.Canvas(parent, bg="#1e1e1e", highlightthickness=0)
         self.canvas.pack(fill=tk.BOTH, expand=True)
         self.display_scale = 1.0
+        self._min_w = int(420 * ui_scale)
+        self._min_h = int(360 * ui_scale)
+        self._pad = int(16 * ui_scale)
         self._tk_image = None  # referensi wajib agar gambar tidak hilang oleh GC
 
     def render(self, cv_img):
         """Gambar citra BGR ke canvas, diskalakan agar muat (tidak diperbesar)."""
         self.canvas.update_idletasks()
-        cw = max(self.canvas.winfo_width(), 420)
-        ch = max(self.canvas.winfo_height(), 360)
+        cw = max(self.canvas.winfo_width(), self._min_w)
+        ch = max(self.canvas.winfo_height(), self._min_h)
 
         img_h, img_w = cv_img.shape[:2]
-        scale = min((cw - 16) / img_w, (ch - 16) / img_h, 1.0)
+        scale = min((cw - self._pad) / img_w, (ch - self._pad) / img_h, 1.0)
         self.display_scale = scale
 
         new_w = int(img_w * scale)

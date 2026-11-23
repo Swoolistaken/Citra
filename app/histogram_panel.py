@@ -10,8 +10,8 @@ from core.histogram import compute_rgb_histograms
 class HistogramPanel:
     """Dua subplot histogram intensitas piksel, bergaya gelap."""
 
-    def __init__(self, parent):
-        self.fig = Figure(figsize=(9, 2.2), dpi=95, facecolor="#1e1e1e")
+    def __init__(self, parent, ui_scale=1.0):
+        self.fig = Figure(figsize=(9, 2.2), dpi=95 * ui_scale, facecolor="#1e1e1e")
         self.ax_before = self.fig.add_subplot(121)
         self.ax_after = self.fig.add_subplot(122)
         self.fig.subplots_adjust(left=0.06, right=0.98, top=0.82, bottom=0.20, wspace=0.18)
