@@ -27,6 +27,12 @@ class HistogramPanel:
         h_before = compute_rgb_histograms(before_image)
         h_after = compute_rgb_histograms(after_image)
 
+        # Skala Y dinamis tapi SAMA untuk before/after: ambil maks semua kanal
+        # dari kedua citra, lalu pakai sumbu log (symlog) agar spike tinggi
+        # tidak meratakan bin lain sehingga detail tetap terlihat.
+        all_hists = [h_before[c] for c in "rgb"] + [h_after[c] for c in "rgb"]
+        ymax = max(max(float(h.max()) for h in all_hists), 1.0)
+
         for ax, hist_data, title in [
             (self.ax_before, h_before, "Histogram Intensitas Piksel - BEFORE"),
             (self.ax_after, h_after, "Histogram Intensitas Piksel - AFTER"),
@@ -45,6 +51,8 @@ class HistogramPanel:
             ax.grid(True, linestyle="--", alpha=0.2, color="#888888")
             for spine in ax.spines.values():
                 spine.set_color("#444444")
+            ax.set_yscale("symlog", linthresh=1)
+            ax.set_ylim(0, ymax * 1.05)
 
         self.ax_after.legend(loc="upper right", fontsize=7, facecolor="#1e1e1e",
                              edgecolor="#444444", labelcolor="white")
